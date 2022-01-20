@@ -5,7 +5,11 @@
 <p>Creator: <%= @event.creator.name %></p>
 <p>Creator Email: <%= @event.creator.email %></p>
 
-<p><%= button_to "Attend Event", users_events_path, params: { attendee_id: current_user.id, event_id: @event.id} %></p>
+<% unless UsersEvent.where(attendee_id: current_user.id).exists? %>
+  <p><%= button_to "Attend Event", users_events_path, params: { attendee_id: current_user.id, event_id: @event.id} %></p>
+<% else %>
+  <p><%= button_to "Not going to make it", users_event_path, method: :delete, params: {users_event_id: UsersEvent.find_by(attendee_id: current_user.id).id } %></p>
+<% end %>
 
 
 

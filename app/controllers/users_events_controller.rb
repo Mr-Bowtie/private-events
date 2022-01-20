@@ -7,6 +7,11 @@ class UsersEventsController < ApplicationController
     @users_event = UsersEvent.create(users_event_params)
   end
 
+  def destroy
+    @users_event = UsersEvent.find(params[:users_event_id])
+    @users_event.destroy
+  end
+
   private
 
   def users_event_params

@@ -5,5 +5,7 @@
 <p>Creator: <%= @event.creator.name %></p>
 <p>Creator Email: <%= @event.creator.email %></p>
 
+<p><%= button_to "Attend Event", users_events_path, params: { attendee_id: current_user.id, event_id: @event.id} %></p>
+
 
 

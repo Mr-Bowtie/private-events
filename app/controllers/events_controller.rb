@@ -1,4 +1,6 @@
 class EventsController < ApplicationController
+  before_action :set_event, only: %i[show edit update destroy]
+
   def index
     @events = Event.all
   end
@@ -18,10 +20,29 @@ class EventsController < ApplicationController
   end
 
   def show
-    @event = Event.find(params[:id])
+  end
+
+  def edit
+  end
+
+  def update
+    if @event.update(event_params)
+      redirect_to @event
+    else
+      render :edit, status: unprocessable_entity
+    end
+  end
+
+  def destroy
+    @event.destroy
+    redirect_to users_show_path, status: 303
   end
 
   private
+
+  def set_event
+    @event = Event.find(params[:id])
+  end
 
   def event_params
     params.require(:event).permit(:title, :location, :date)

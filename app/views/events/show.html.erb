@@ -13,6 +13,11 @@
     <p><%= button_to "Attend Event", users_events_path, params: { attendee_id: current_user.id, event_id: @event.id} %></p>
   <% end %>
 
+<% if user_signed_in? && current_user.id == @event.creator_id %>
+  <p><%= link_to 'Edit', edit_event_path(@event) %></p>
+  <p><%= link_to "Delete", event_path(@event), data: { turbo_method: :delete} %></p>
+<% end %>
+
 <h2>Attended By</h2>
 <% @event.attendees.each do |a| %>
   <p><%= a.name %></p>

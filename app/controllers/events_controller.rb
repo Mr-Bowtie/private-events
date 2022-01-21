@@ -13,8 +13,10 @@ class EventsController < ApplicationController
     @event = current_user.created_events.build(event_params)
 
     if @event.save
-      render :show, status: :created, location: @event
+      flash.now[:notice] = 'Event was created'
+      redirect_to event_path(@event), status: :created
     else
+      flash.now[:notice] = 'Event fields cannot be left blank'
       render :new, status: :unprocessable_entity
     end
   end
@@ -27,9 +29,10 @@ class EventsController < ApplicationController
 
   def update
     if @event.update(event_params)
-      redirect_to @event
+      redirect_to @event, notice: 'Event was successfully updated'
     else
-      render :edit, status: unprocessable_entity
+      render :edit, status: :unprocessable_entity
+      flash[:notice] = 'Event fields cannot be left blank'
     end
   end
 

@@ -3,16 +3,35 @@
 <h2>Created Events</h2>
 <% @user.created_events.each do |e| %>
   <hr>
-  <p>Title: <%= e.title %></p>
+  <p>
+    Title: <%= e.title %><br>
+    Date: <%= e.date %>
+  </p>
+
   <p><%= link_to "Details", event_path(e) %></p>
   <hr>
 <% end %>
 <br>
 
-<h2>Attended Events</h2>
-<% @user.attended_events.each do |e| %>
+<h2>Past Events</h2>
+<% @user.attended_events.where("date < ?", Date.today).each do |e| %>
   <hr>
-  <p>Title: <%= e.title %></p>
+  <p>
+    Title: <%= e.title %><br>
+    Date: <%= e.date %>
+  </p>
+  <p><%= link_to "Details", event_path(e) %></p>
+  <hr>
+<% end %>
+<br>
+
+<h2>Upcoming Events </h2>
+<% @user.attended_events.where("date >= ?", Date.today).each do |e| %>
+  <hr>
+  <p>
+    Title: <%= e.title %><br>
+    Date: <%= e.date %>
+  </p>
   <p><%= link_to "Details", event_path(e) %></p>
   <hr>
 <% end %>

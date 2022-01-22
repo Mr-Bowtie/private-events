@@ -1,6 +1,8 @@
 class Event < ApplicationRecord
   scope :past, -> { self.where('date < ?', Date.today) }
   scope :future, -> { self.where('date >= ?', Date.today) }
+  scope :public_event, -> { self.where("visibility == 'public'") }
+  scope :private_event, -> { self.where("visibility == 'private'") }
 
   # def self.past
   #   self.where('date < ?', Date.today)
@@ -10,9 +12,10 @@ class Event < ApplicationRecord
   #   self.where('date > ?', Date.today)
   # end
 
+  has_many :invitations
   belongs_to :creator, class_name: 'User'
   has_many :users_events
   has_many :attendees, through: :users_events
 
-  validates :title, :location, :date, presence: true
+  validates :title, :location, :date, :visibility, presence: true
 end

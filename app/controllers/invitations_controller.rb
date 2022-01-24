@@ -5,6 +5,12 @@ class InvitationsController < ApplicationController
 
   def create
     @invitation = Invitation.create(invitation_params)
+    redirect_back_or_to(Event.find(params[:event_id]))
+  end
+
+  def destroy
+    Invitation.find(params[:id]).destroy
+    redirect_back_or_to(Event.find(params[:event_id]))
   end
 
   private

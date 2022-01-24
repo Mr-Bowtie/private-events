@@ -1,7 +1,28 @@
 <h1><%= @user.name %></h1>
 
 <h2>Created Events</h2>
-<% @user.created_events.each do |e| %>
+
+<h3>Private</h3>
+<% @user.created_events.private_event.each do |e| %>
+  <hr>
+  <p>
+    Title: <%= e.title %><br>
+    Date: <%= e.date %><br>
+    Visibility: <%= e.visibility %><br>
+
+    <div class="event-actions">
+      <p><%= link_to 'Edit', edit_event_path(e) %></p>
+      <p><%= link_to "Delete", event_path(e), data: { turbo_method: :delete} %></p>
+    </div>
+  </p>
+
+  <p><%= link_to "Details", event_path(e) %></p>
+  <hr>
+<% end %>
+<br>
+
+<h3>Public</h3>
+<% @user.created_events.public_event.each do |e| %>
   <hr>
   <p>
     Title: <%= e.title %><br>

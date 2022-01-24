@@ -1,5 +1,8 @@
 <h1>Search for users</h1>
 
+<%= link_to "Back to event page", event_path(params[:event_id]) %>
+<br></br>
+
 <%=  form_tag users_index_path, :method => 'get' do  %>
   <%= label_tag(:search, "Search users by name or email") %>
   <%= text_field_tag :search, params[:search] %>

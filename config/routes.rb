@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   get 'users/show'
   get 'users/index'
-  devise_for :users, controllers: { sessions: 'users/sessions' }
+  devise_for :users, controllers: { sessions: 'users/sessions', registrations: 'users/registrations' }
   resources :events
   resources :users_events, only: [:new, :create, :destroy]
   resources :invitations, only: [:new, :create, :destroy]

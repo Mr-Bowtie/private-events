@@ -13,8 +13,8 @@ class EventsController < ApplicationController
     @event = current_user.created_events.build(event_params)
 
     if @event.save
-      flash.now[:notice] = 'Event was created'
-      redirect_to event_path(@event), status: :created
+      # flash.now[:notice] = 'Event was created'
+      redirect_to @event, notice: 'Event successfully created'
     else
       flash.now[:notice] = 'Event fields cannot be left blank'
       render :new, status: :unprocessable_entity

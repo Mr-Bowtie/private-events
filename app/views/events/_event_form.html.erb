@@ -13,6 +13,14 @@
     <%= f.label :date %><br />
     <%= f.date_field :date %>
   </div>
+  <br>
+  <div>
+    <%= f.label :visibility, "Public" %>
+    <%= f.radio_button :visibility, "public" %>
+    <br>
+    <%= f.label :visibility, "Private" %>
+    <%= f.radio_button :visibility, "private" %>
+  </div>
 
   <div>
     <%= f.button :submit %>

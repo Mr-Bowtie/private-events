@@ -1,6 +1,6 @@
 <h1>Event Catalog</h1>
 
-<% @events.each do |event| %>
+<% @events.public_event.each do |event| %>
   <hr>
   <p>Title: <%= event.title %></p>
   <p>Creator: <%= event.creator.name %></p>

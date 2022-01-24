@@ -14,8 +14,10 @@
   <% end %>
 
 <% if user_signed_in? && current_user.id == @event.creator_id %>
+  <p><%= button_to "Send Invites", users_index_path, method: 'get', params: {event_id: @event.id} %></p>
   <p><%= link_to 'Edit', edit_event_path(@event) %></p>
   <p><%= link_to "Delete", event_path(@event), data: { turbo_method: :delete} %></p>
+  <%# <%= render "invitation_form", event: @event, %>
 <% end %>
 
 <h2>Attended By</h2>

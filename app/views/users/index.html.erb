@@ -1,0 +1,15 @@
+<h1>Search for users</h1>
+
+<%=  form_tag users_index_path, :method => 'get' do  %>
+  <%= label_tag(:search, "Search users by name or email") %>
+  <%= text_field_tag :search, params[:search] %>
+  <%= submit_tag("Search", :name => nil) %>
+<% end %>
+
+<% @users.each do |user| %>
+  <hr>
+  <p>Name: <%= user.name %></p>
+  <p>Email: <%= user.email %></p>
+  <p><%= button_to "Send Invitation", invitations_path , params: { :invitation => { invite_creator_id: current_user.id, recipient_id: user.id, event_id: params[:event_id]}} %></p>
+  <hr>
+<% end %>

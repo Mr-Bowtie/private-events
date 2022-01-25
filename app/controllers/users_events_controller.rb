@@ -5,11 +5,13 @@ class UsersEventsController < ApplicationController
 
   def create
     @users_event = UsersEvent.create(users_event_params)
+    redirect_back_or_to(Event.find(@users_event.event_id))
   end
 
   def destroy
     @users_event = UsersEvent.find(params[:users_event_id])
     @users_event.destroy
+    redirect_back_or_to(Event.find(@users_event.event_id))
   end
 
   private

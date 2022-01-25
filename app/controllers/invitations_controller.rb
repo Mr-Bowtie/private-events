@@ -12,6 +12,13 @@ class InvitationsController < ApplicationController
 
   def destroy
     @invitation.destroy
+    invite_event_attendee = @invitation.event.users_events.find_by(attendee_id: @invitation.recipient.id)
+    # if there is a users_event attached to the recipient of the invitation,
+    # destroy that users_event as well. prevents user from still showing as
+    # attending after deleting the invitations
+    unless invite_event_attendee.nil?
+      invite_event_attendee.destroy
+    end
     redirect_back_or_to(Event.find(params[:event_id]))
   end
 

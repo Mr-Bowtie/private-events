@@ -17,7 +17,7 @@
   <% if user.recieved_invitations.find_by(event_id: params[:event_id]).nil? %>
     <p><%= button_to "Send Invitation", invitations_path , params: { :invitation => { invite_creator_id: current_user.id, recipient_id: user.id, event_id: params[:event_id]}} %></p>
   <% else %>
-    <p><%= link_to "Rescind Invitation", invitation_path(user.recieved_invitations.find_by(event_id: params[:event_id])), data: {turbo_method: :delete} %></p> 
+    <p><%= link_to "Rescind Invitation", invitation_path(user.recieved_invitations.find_by(event_id: params[:event_id])), params: {user_id: user.id, event_id: params[:event_id]}, data: {turbo_method: :delete} %></p> 
   <% end %>
   <hr>
 <% end %>

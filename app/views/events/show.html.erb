@@ -1,12 +1,16 @@
 <%# <% unless @event.invitations %>
 <h1><%= @event.title %></h1><br />
 
-<% if @event.invitations.unresponded.where(recipient_id: current_user.id).exists? %>
+<% if @event.invitations.unresponded.where(recipient_id: current_user.id).exists? && @event.date >= Date.today%>
   <h2>You've been invited</h2>
   <p>
       <%= button_to "Accept", invitation_path(@event.invitations.find_by(recipient_id: current_user.id)), params: {response: 'attend', event_id: @event.id }, method: :patch %>
       <%= button_to "Decline", invitation_path(@event.invitations.find_by(recipient_id: current_user.id)), params: {response: 'decline'}, method: :patch %>
   </p> 
+<% end %>
+
+<% if @event.date < Date.today %>
+  <h2>Event sign up is closed</h2>
 <% end %>
 
 <p>Location: <%= @event.location %></p>
@@ -15,42 +19,41 @@
 <p>Creator Email: <%= @event.creator.email %></p>
 
 
-<% if @event.visibility == 'public' %>
-  <% if !user_signed_in? %>
-    <p><%= button_to "Attend Event", new_user_session_path, method: :get %></p>
-  <% elsif UsersEvent.where(attendee_id: current_user.id, event_id: @event.id).exists? %> 
-    <p><%= button_to "Not going to make it", users_event_path, method: :delete, params: {users_event_id: UsersEvent.find_by(attendee_id: current_user.id).id } %></p>
-  <% else %>
-    <p><%= button_to "Attend Event", users_events_path, params: { attendee_id: current_user.id, event_id: @event.id} %></p>
+<% if current_user.id == @event.creator_id %>
+  <% if @event.date >= Date.today %>
+    <p><%= button_to "Send Invites", users_index_path, method: 'get', params: {event_id: @event.id} %></p>
   <% end %>
-
-  <h2>Attended By</h2>
-  <% @event.attendees.each do |a| %>
-    <p><%= a.name %></p>
-  <% end %>
-<% end %>
-
-
-<% if user_signed_in? && current_user.id == @event.creator_id %>
-  <p><%= button_to "Send Invites", users_index_path, method: 'get', params: {event_id: @event.id} %></p>
   <p><%= link_to 'Edit', edit_event_path(@event) %></p>
   <p><%= link_to "Delete", event_path(@event), data: { turbo_method: :delete} %></p>
-  <%# <%= render "invitation_form", event: @event, %>
 <% end %>
 
-<% if @event.visibility == 'private' && current_user.id == @event.creator_id%>
-  <h2>Unanswered Invites</h2>
-  <% @event.invitations.where('response IS NULL').each do |i| %>
-    <p>Name: <%= i.recipient.name %> Email: <%= i.recipient.email %></p>
+<% if @event.visibility == 'public' && @event.date >= Date.today %>
+  <% if !user_signed_in? %>
+    <p><%= button_to "Attend Event", new_user_session_path, method: :get %></p>
+  <% else %>
+    <% if UsersEvent.where(attendee_id: current_user.id, event_id: @event.id).exists? %> 
+      <p><%= button_to "Not going to make it", users_event_path, method: :delete, params: {users_event_id: UsersEvent.find_by(attendee_id: current_user.id).id } %></p>
+    <% else %>
+      <p><%= button_to "Attend Event", users_events_path, params: { attendee_id: current_user.id, event_id: @event.id} %></p>
+    <% end %>
   <% end %>
+<% elsif @event.visibility == 'private' && @event.date >= Date.today%>
+  <% if current_user.id == @event.creator_id%>
+    <h2>Unanswered Invites</h2>
+    <% @event.invitations.where('response IS NULL').each do |i| %>
+      <p>Name: <%= i.recipient.name %> Email: <%= i.recipient.email %></p>
+    <% end %>
 
-  <h2>Responded: Attending</h2>
-  <% @event.invitations.where("response == ?", 'attend').each do |i| %>
-    <p>Name: <%= i.recipient.name %> Email: <%= i.recipient.email %></p>
-  <% end %>
-
-  <h2>Responded: Declined</h2>
-  <% @event.invitations.where("response == ?", 'decline').each do |i| %>
-    <p>Name: <%= i.recipient.name %> Email: <%= i.recipient.email %></p>
+    <h2>Declined</h2>
+    <% @event.invitations.where("response == ?", 'decline').each do |i| %>
+      <p>Name: <%= i.recipient.name %> Email: <%= i.recipient.email %></p>
+    <% end %>
   <% end %>
 <% end %>
+
+<h2>Attended By</h2>
+<% @event.attendees.each do |a| %>
+  <p><%= a.name %></p>
+<% end %>
+
+

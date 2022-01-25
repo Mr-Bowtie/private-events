@@ -1,6 +1,14 @@
 <%# <% unless @event.invitations %>
 <h1><%= @event.title %></h1><br />
 
+<% if @event.invitations.unresponded.where(recipient_id: current_user.id).exists? %>
+  <h2>You've been invited</h2>
+  <p>
+      <%= button_to "Accept", invitation_path(@event.invitations.find_by(recipient_id: current_user.id)), params: {response: 'attend', event_id: @event.id }, method: :patch %>
+      <%= button_to "Decline", invitation_path(@event.invitations.find_by(recipient_id: current_user.id)), params: {response: 'decline'}, method: :patch %>
+  </p> 
+<% end %>
+
 <p>Location: <%= @event.location %></p>
 <p>Date: <%= @event.date %></p>
 <p>Creator: <%= @event.creator.name %></p>
@@ -36,13 +44,13 @@
     <p>Name: <%= i.recipient.name %> Email: <%= i.recipient.email %></p>
   <% end %>
 
-  <h2>Attending</h2>
+  <h2>Responded: Attending</h2>
   <% @event.invitations.where("response == ?", 'attend').each do |i| %>
-    <p><Name: <%= i.recipient.name %> Email: <%= i.recipient.email %></p>
+    <p>Name: <%= i.recipient.name %> Email: <%= i.recipient.email %></p>
   <% end %>
 
-  <h2>Declined</h2>
+  <h2>Responded: Declined</h2>
   <% @event.invitations.where("response == ?", 'decline').each do |i| %>
-    <p><Name: <%= i.recipient.name %> Email: <%= i.recipient.email %></p>
+    <p>Name: <%= i.recipient.name %> Email: <%= i.recipient.email %></p>
   <% end %>
 <% end %>

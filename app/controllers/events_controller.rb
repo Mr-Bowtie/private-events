@@ -38,7 +38,7 @@ class EventsController < ApplicationController
 
   def destroy
     @event.destroy
-    redirect_to users_show_path, status: 303
+    redirect_back_or_to users_show_path, status: 303
   end
 
   private

@@ -2,23 +2,20 @@
 
 <h2>Invitation Inbox</h2>
 
-<% @user.recieved_invitations.responded.each do |r| %>
-  <% unless @user.attended_events.ids.include?(r.event_id) %>
-    <% end %>
-     
-<% end %>
-
 <% @user.recieved_invitations.unresponded.each do |u| %>
-  <p>
+  <% if u.event.date >= Date.today %>
+    <p>
     Event: <%= u.event.title %>, Date <%= u.event.date %>
-    <% if u.response.nil? %>
-      <p>
-      <%= button_to "Accept", invitation_path(u), params: {response: 'attend', event_id: u.event.id, }, method: :patch %>
-      <%= button_to "Decline", invitation_path(u), params: {response: 'decline'}, method: :patch %>
-      </p>
-      
-    <% end %>
-  </p>
+  <% if u.response.nil? %>
+    <p>
+    <%= button_to "Accept", invitation_path(u), params: {response: 'attend', event_id: u.event.id, }, method: :patch %>
+    <%= button_to "Decline", invitation_path(u), params: {response: 'decline'}, method: :patch %>
+    <%= link_to "Details", event_path(u.event) %>     
+    </p>
+
+  <% end %>
+    </p>
+  <% end %>
 <% end %>
 
 <h2>Created Events</h2>

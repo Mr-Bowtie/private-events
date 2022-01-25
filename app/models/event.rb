@@ -12,7 +12,7 @@ class Event < ApplicationRecord
   #   self.where('date > ?', Date.today)
   # end
 
-  has_many :invitations
+  has_many :invitations, dependent: :destroy
   belongs_to :creator, class_name: 'User'
   has_many :users_events
   has_many :attendees, through: :users_events

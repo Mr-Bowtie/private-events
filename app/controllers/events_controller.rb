@@ -16,7 +16,7 @@ class EventsController < ApplicationController
       # flash.now[:notice] = 'Event was created'
       redirect_to @event, notice: 'Event successfully created'
     else
-      flash.now[:notice] = 'Event fields cannot be left blank'
+      flash.now[:alert] = 'Event fields cannot be left blank'
       render :new, status: :unprocessable_entity
     end
   end
@@ -32,7 +32,7 @@ class EventsController < ApplicationController
       redirect_to @event, notice: 'Event was successfully updated'
     else
       render :edit, status: :unprocessable_entity
-      flash[:notice] = 'Event fields cannot be left blank'
+      flash[:alert] = 'Event fields cannot be left blank'
     end
   end
 

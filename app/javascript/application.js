@@ -2,35 +2,16 @@
 import "@hotwired/turbo-rails"
 import "controllers"
 
-class Navbar {
-    constructor(target, menu, menu_buttons) {
-        if (target instanceof HTMLElement && menu instanceof HTMLElement) {
-            this.btn = target;
-            this.menu = menu;
-            this.menu_buttons = menu_buttons;
+const burger = document.querySelector('.burger');
+const nav = document.querySelector('#nav-menu');
+const navButtons = document.querySelector("#navButtons");
 
-            this.btn.addEventListener('click', () => {
-                this.toggle_menu();
-            });
-        } else {
-            throw new TypeError("The Target and Menu arguments must be DOM objects");
-        }
-        // this.isOpen = false;
-    }
+function toggle_menu () {
+    burger.classList.toggle('is-active')
+    nav.classList.toggle('is-active')
+    navButtons.classList.toggle("is-grouped")
+};
 
-    toggle_menu () {
-       this.btn.classList.toggle('is-active')
-       this.menu.classList.toggle('is-active')
-       this.menu_buttons.classList.toggle("is-grouped")
-    }
-}
-
-window.addEventListener("DOMContentLoaded", () => {
-    var navbar = new Navbar(
-        document.querySelector(".burger"),
-        document.querySelector("#nav-menu"),
-        document.querySelector("#navButtons")
-    );
-
-})
-
+document.addEventListener("DOMContentLoaded", () =>{
+    burger.addEventListener("click", toggle_menu);
+});

@@ -51,6 +51,10 @@ gem "bootsnap", require: false
 #User authentication
 gem 'devise'
 
+# CSS framework
+gem 'bulma-rails', '~> 0.9.2'
+
+
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem "debug", platforms: %i[ mri mingw x64_mingw ]
@@ -60,6 +64,9 @@ group :development do
   # Use console on exceptions pages [https://github.com/rails/web-console]
   gem "web-console"
 
+  gem "guard"
+  gem "guard-livereload", require: false
+  gem "rack-livereload"
   # Add speed badges [https://github.com/MiniProfiler/rack-mini-profiler]
   # gem "rack-mini-profiler"
 

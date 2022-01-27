@@ -1,91 +1,84 @@
-<h1><%= @user.name %></h1>
-<%= link_to "Edit profile", edit_user_registration_path %>
 
-<h2>Invitation Inbox</h2>
+  <div class="container">
+    <div class="columns">
+      <div class="column">
 
-<% @user.recieved_invitations.unresponded.each do |u| %>
-  <% if u.event.date >= Date.today %>
-    <p>
-    Event: <%= u.event.title %>, Date <%= u.event.date %>
-  <% if u.response.nil? %>
-    <p>
-    <%= button_to "Accept", invitation_path(u), params: {response: 'attend', event_id: u.event.id, }, method: :patch %>
-    <%= button_to "Decline", invitation_path(u), params: {response: 'decline'}, method: :patch %>
-    <%= link_to "Details", event_path(u.event) %>     
-    </p>
-          <h3 class="title is-5 has-text-white-ter">Private</h3>
-          <% @user.created_events.private_event.each do |event| %>
-            <%= render( "events/event_card", event: event) %>
+        <section class="section invitation-inbox">
+          <h1 class="title is-3 has-text-white-ter"><%= @user.name %></h1>
+          <%= link_to "Edit profile", edit_user_registration_path, class: "button is-white is-outlined"%>
+          <br></br>
+          <h2 class="title is-4 has-text-white-ter">Invitation Inbox</h2>
+          <% if @user.recieved_invitations.unresponded.empty? %>
+            <p class="title is-6 has-text-warning">Inbox empty</p>
           <% end %>
-          <br>
+          <div class="columns is-multiline">
+            <% @user.recieved_invitations.unresponded.each do |u| %>
+              <div class="column is-one-quarter">
+                <div class="box has-background-grey-dark">
+                  <% if u.event.date >= Date.today %>
+                    <p class="title is-5 has-text-white-ter">
+                    <%= u.event.title %>
+                    </p>
+                    <p class="subtitle has-text-white-ter">
+                    <%= u.event.date %>
+                    </p>
+                    <div class="field is-grouped">
+                      <p class='control'>
+                      <%= link_to "Details", event_path(u.event), class: "button is-primary is-outlined"%>     
+                      </p>
+                    </div>
+                    <div class="field is-grouped">
+                      <p class="control">
+                      <%= link_to "Accept", invitation_path(u, :response => 'attend', :event_id => u.event.id), data:{turbo_method: :patch}, class: "button is-info" %>
+                      <%= link_to "Decline", invitation_path(u, :response => 'decline'), method: :patch, class: "button is-info" %>
+                      </p>
+                    </div>
+                  <% end %>
+                </div>
+              </div>
+            <% end %>
+          </div>
+        </section>
 
-  <% end %>
-    </p>
-  <% end %>
-<% end %>
+        <section class="section created-events">
+          <h2 class="title is-4 has-text-white-ter">Created Events</h2>
+          <h3 class="title is-5 has-text-white-ter">Private</h3>
+          <div class="columns is-multiline">
+            <% @user.created_events.private_event.each do |event| %>
+              <%= render( "events/event_card", event: event) %>
+            <% end %>
+            <br>
+          </div>
+          <h3 class="title is-5 has-text-white-ter">Public</h3>
+          <div class="columns is-multiline">
+            <% @user.created_events.public_event.each do |event| %>
+              <%= render("events/event_card", event: event) %>
+            <% end %>
+            <br>
+          </div>
+        </section>
 
-<h2>Created Events</h2>
+        <section class="section attending-events">
+          <h2 class="title is-4 has-text-white-ter">Attending Events</h2>
+          <h3 class="title is-5 has-text-white-ter">Upcoming</h2>
+          <div class="columns is-multiline">
+            <% @user.attended_events.future.each do |event| %>
+              <%= render("events/event_card", event: event) %>
+            <% end %>
+            <br>
+          </div>
+          <h3 class="title is-5 has-text-white-ter">Past</h3>
+          <div class="columns is-multiline">
+            <% @user.attended_events.past.each do |event| %>
+              <%= render("events/event_card", event: event) %>
+            <% end %>
+            <br>
+          </div>
+        </section>
 
-<h3>Private</h3>
-<% @user.created_events.private_event.each do |e| %>
-  <hr>
-  <p>
-    Title: <%= e.title %><br>
-    Date: <%= e.date %><br>
-    Visibility: <%= e.visibility %><br>
-
-    <div class="event-actions">
-      <p><%= link_to 'Edit', edit_event_path(e) %></p>
-      <p><%= link_to "Delete", event_path(e), data: { turbo_method: :delete} %></p>
+      </div>
     </div>
-  </p>
+  </div>
 
-  <p><%= link_to "Details", event_path(e) %></p>
-  <hr>
-<% end %>
-<br>
 
-<h3>Public</h3>
-<% @user.created_events.public_event.each do |e| %>
-  <hr>
-  <p>
-    Title: <%= e.title %><br>
-    Date: <%= e.date %><br>
-    Visibility: <%= e.visibility %><br>
 
-    <div class="event-actions">
-      <p><%= link_to 'Edit', edit_event_path(e) %></p>
-      <p><%= link_to "Delete", event_path(e), data: { turbo_method: :delete} %></p>
-    </div>
-  </p>
-
-  <p><%= link_to "Details", event_path(e) %></p>
-  <hr>
-<% end %>
-<br>
-
-<h2>Past Events</h2>
-<% @user.attended_events.past.each do |e| %>
-  <hr>
-  <p>
-    Title: <%= e.title %><br>
-    Date: <%= e.date %><br>
-    Visibility: <%= e.visibility %>
-  </p>
-  <p><%= link_to "Details", event_path(e) %></p>
-  <hr>
-<% end %>
-<br>
-
-<h2>Upcoming Events </h2>
-<% @user.attended_events.future.each do |e| %>
-  <hr>
-  <p>
-    Title: <%= e.title %><br>
-    Date: <%= e.date %><br>
-    Visibility: <%= e.visibility %>
-
-  </p>
-  <p><%= link_to "Details", event_path(e) %></p>
-  <hr>
-<% end %>

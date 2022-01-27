@@ -13,6 +13,11 @@
     <%= button_to "Decline", invitation_path(u), params: {response: 'decline'}, method: :patch %>
     <%= link_to "Details", event_path(u.event) %>     
     </p>
+          <h3 class="title is-5 has-text-white-ter">Private</h3>
+          <% @user.created_events.private_event.each do |event| %>
+            <%= render( "events/event_card", event: event) %>
+          <% end %>
+          <br>
 
   <% end %>
     </p>

@@ -1,12 +1,26 @@
-<h1>Event Catalog</h1>
+<section class="section">
+  <div class="container">
+    <div class="columns">
+      <div class="column">
+        <h1 class="title is-3 has-text-white-ter">Public Events</h1>
+        <div class="columns is-multiline">
+          <% @events.public_event.each do |event| %>
+            <div class="column is-one-third">
+              <div class="box has-background-grey-dark">
+                <h2 class="has-text-white-ter title is-5"><%= event.title %></h2>
+                <p class="subtitle has-text-white-ter" >Creator: <%= event.creator.name %></p>
+                <p>
+                <%= link_to 'Details', event_path(event), class: "button is-primary is-outlined" %>
+                </p>
 
-<% @events.public_event.each do |event| %>
-  <hr>
-  <p>Title: <%= event.title %></p>
-  <p>Creator: <%= event.creator.name %></p>
-  <p>
-    <%= link_to 'Details', event_path(event) %>
-  </p>
-  <hr>
+              </div>
+            </div>
 
-<% end %>
+          <% end %>
+
+        </div>
+      </div>
+    </div>
+  </div>
+  
+</section>

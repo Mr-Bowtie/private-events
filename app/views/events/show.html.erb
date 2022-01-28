@@ -69,7 +69,7 @@
 
              <br>
              <h3 class="title is-4 has-text-white-ter">Declined</h3><hr>
-             <% @event.invitations.where("response == ?", 'decline').each do |i| %>
+             <% @event.invitations.where("response = ?", 'decline').each do |i| %>
                <p class="subtitle has-text-white-ter"><%= i.recipient.name %></p>
              <% end %>
              <br>

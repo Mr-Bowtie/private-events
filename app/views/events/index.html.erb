@@ -4,7 +4,7 @@
       <div class="column">
         <h1 class="title is-3 has-text-white-ter">Public Events</h1>
         <div class="columns is-multiline">
-          <% @events.public_event.each do |event| %>
+          <% @events.public_event.future.each do |event| %>
             <%= render "event_card", event: event %>
           <% end %>
 

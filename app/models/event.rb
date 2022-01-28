@@ -1,8 +1,8 @@
 class Event < ApplicationRecord
   scope :past, -> { self.where('date < ?', Date.today).order(date: :asc) }
   scope :future, -> { self.where('date >= ?', Date.today).order(date: :asc) }
-  scope :public_event, -> { self.where('visibility == ?', 'public').order(date: :desc) }
-  scope :private_event, -> { self.where('visibility == ?', 'private').order(date: :desc) }
+  scope :public_event, -> { self.where("visibility = 'public'").order(date: :desc) }
+  scope :private_event, -> { self.where("visibility = 'private'").order(date: :desc) }
 
   # def self.past
   #   self.where('date < ?', Date.today)

@@ -21,7 +21,6 @@
          <% if @event.date < Date.today %>
            <h2 class="title is-1 has-text-white-ter">Event sign up is closed</h2>
          <% end %>
-
         
          
          <h3 class="title is-4 has-text-white-ter">Description: </h3>
@@ -31,7 +30,8 @@
          <h3 class="title is-4 has-text-white-ter">Date: </h3>
          <p class="subtitle has-text-white-ter"><%= @event.date %></p><br>
          <h3 class="title is-4 has-text-white-ter">Creator: </h3>
-         <p class="subtitle has-text-white-ter"><%= @event.creator.name %></p><br>
+         <p class="subtitle has-text-white-ter"><%= @event.creator.name %><br>
+         <em><%= @event.creator.username %></em></p><br>
          <h3 class="title is-4 has-text-white-ter">Creator Email: </h3>
          <p class="subtitle has-text-white-ter"><%= @event.creator.email %></p><br>
 
@@ -61,11 +61,10 @@
            <% if @event.date >= Date.today %>
              <p class="control"><%= button_to "Send Invites", users_index_path, method: 'get', params: {event_id: @event.id}, class: "button is-info" %></p>
            <% end %><br>
-         <% end %>
-         <% if @event.visibility == 'private' && @event.date >= Date.today && @event.creator.id == current_user.id %>
             <h3 class="title is-4 has-text-white-ter">Unanswered Invites</h3><hr>
              <% @event.invitations.where('response IS NULL').each do |i| %>
-               <p class="subtitle has-text-white-ter"><%= i.recipient.name %></p>
+               <p class="title is-5 has-text-white-ter"><%= i.recipient.name %></p>
+               <p class="subtitle has-text-white-ter"><%= i.recipient.username %></p>
              <% end %>
 
              <br>
@@ -77,7 +76,8 @@
          <% end %>
          <h2 class="title is-3 has-text-white-ter">Attended By</h2><hr>
          <% @event.attendees.each do |a| %>
-           <p class="subtitle has-text-white-ter"><%= a.name %></p>
+           <p class="title is-4 has-text-white-ter"><%= a.name %></p>
+           <p class="subtitle is-5 has-text-white-ter"><em><%= a.username %></em></p>
          <% end %>
        </div>
      </div>

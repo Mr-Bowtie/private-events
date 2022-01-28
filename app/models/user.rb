@@ -3,7 +3,7 @@ class User < ApplicationRecord
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
-
+  validates :username, presence: true
   # search by name or email
   has_many :recieved_invitations, foreign_key: :recipient_id, class_name: 'Invitation'
   has_many :created_invitations, foreign_key: :invite_creator_id, class_name: 'Invitation'
@@ -16,7 +16,7 @@ class User < ApplicationRecord
       if search_string.chars.include?('@')
         self.where(email: search_string)
       else
-        self.where(name: search_string)
+        self.where('name == ? or username == ?', search_string, search_string)
       end
     else
       @users = User.all

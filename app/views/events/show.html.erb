@@ -65,12 +65,14 @@
              <% @event.invitations.where('response IS NULL').each do |i| %>
                <p class="title is-5 has-text-white-ter"><%= i.recipient.name %></p>
                <p class="subtitle has-text-white-ter"><%= i.recipient.username %></p>
+               <br>
              <% end %>
 
              <br>
              <h3 class="title is-4 has-text-white-ter">Declined</h3><hr>
              <% @event.invitations.where("response = ?", 'decline').each do |i| %>
                <p class="subtitle has-text-white-ter"><%= i.recipient.name %></p>
+               <br>
              <% end %>
              <br>
          <% end %>

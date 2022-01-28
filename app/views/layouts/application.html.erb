@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
+    <%= favicon_link_tag %>
 
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
@@ -13,6 +14,9 @@
   <body class="has-background-dark is-fullheight has-navbar-fixed-top">
     <nav class="navbar has-background-black-ter is-fixed-top">
       <div class="navbar-brand">
+        <figure class="image is-32x32 ml-2 mt-2">
+          <%= image_tag("palace_32x32.png") %>
+        </figure>
         <%= link_to root_path, class: "navbar-item" do%>
           <h1 class="title is-5 has-text-primary-light">Event Palace</h1>
         <% end %>
@@ -29,21 +33,21 @@
               <div id='navButtons' class="column is-narrow field is-grouped">
                 
                 <% if user_signed_in? %>
-                  <p class="control">
-                  <%= link_to "Create Event", new_event_path, class: "button is-warning is-outlined" %>
-                  </p>
-                  <p class="control">
-                  <%= link_to current_user.name + "'s Profile", users_show_path, class: "button is-info is-outlined "%>
-                  </p>
-                  <p class="control">
-                  <%= link_to "Logout", destroy_user_session_path, data: { turbo_method: :delete}, class: "button is-danger is-outlined"%>
-                  </p>
+                  <p class="control has-text-centered">
+                  <%= link_to "Create Event", new_event_path, class: "button is-warning is-outlined is-fullwidth" %>
+                  </p><br>
+                  <p class="control has-text-centered">
+                  <%= link_to current_user.name + "'s Profile", users_show_path, class: "button is-info is-outlined is-fullwidth "%>
+                  </p><br>
+                  <p class="control has-text-centered">
+                  <%= link_to "Logout", destroy_user_session_path, data: { turbo_method: :delete}, class: "button is-danger is-outlined is-fullwidth"%>
+                  </p><br>
                 <% else %>
-                  <p class="control">
-                  <%= link_to "Sign in", new_user_session_path, class: "button is-info" %>
-                  </p>
-                  <p class="control">
-                  <%= link_to "Sign up", new_user_registration_path, class: "button is-info" %>
+                  <p class="control has-text-centered">
+                  <%= link_to "Sign in", new_user_session_path, class: "button is-info is-fullwidth" %>
+                  </p><br>
+                  <p class="control has-text-centered">
+                  <%= link_to "Sign up", new_user_registration_path, class: "button is-info is-fullwidth" %>
                   </p>
               </div>
             </div>

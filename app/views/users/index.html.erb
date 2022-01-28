@@ -1,23 +1,34 @@
-<h1>Search for users</h1>
+<section class="section">
+  <div class="container">
+    <div class="columns is-centered">
+      <div class="column is-two-thirds">
+        <h1 class="title is-2 has-text-white-ter">Search for users</h1>
 
-<%= link_to "Back to event page", event_path(params[:event_id]) %>
-<br></br>
+        <%= link_to "Back to event page", event_path(params[:event_id]), class: "button is-info is-outlined" %>
+        <br></br>
 
-<%=  form_tag users_index_path, :method => 'get' do  %>
-  <%= label_tag(:search, "Search users by name or email") %>
-  <%= text_field_tag :search, params[:search] %>
-  <%= hidden_field_tag :event_id, params[:event_id] %>
-  <%= submit_tag("Search", :name => nil) %>
-<% end %>
+        <%=  form_tag users_index_path, :method => 'get' do  %>
+          <%= label_tag(:search, "Search users by name or email", class: "label has-text-white-ter") %>
+          <%= hidden_field_tag :event_id, params[:event_id] %>
+          <div class="field is-grouped">
+            <%= submit_tag("Search", :name => nil, class: "button control is-primary is-outlined") %>
+            <%= text_field_tag :search, params[:search], class: "input mb-2" %>
+          </div>
+        <% end %>
 
-<% @users.each do |user| %>
-  <hr>
-  <p>Name: <%= user.name %></p>
-  <p>Email: <%= user.email %></p>
-  <% if user.recieved_invitations.find_by(event_id: params[:event_id]).nil? %>
-    <p><%= button_to "Send Invitation", invitations_path , params: { :invitation => { invite_creator_id: current_user.id, recipient_id: user.id, event_id: params[:event_id]}} %></p>
-  <% else %>
-    <p><%= link_to "Rescind Invitation", invitation_path(user.recieved_invitations.find_by(event_id: params[:event_id])), params: {user_id: user.id, event_id: params[:event_id]}, data: {turbo_method: :delete} %></p> 
-  <% end %>
-  <hr>
-<% end %>
+          <hr>
+        <% @users.each do |user| %>
+          <p class="title is-5 has-text-white-ter"><%= user.name %></p>
+          <p class="subtitle has-text-white-ter"><%= user.username %></p>
+          <% if user.recieved_invitations.find_by(event_id: params[:event_id]).nil? %>
+            <p><%= button_to "Send Invitation", invitations_path , params: { :invitation => { invite_creator_id: current_user.id, recipient_id: user.id, event_id: params[:event_id]}}, class: "button is-info" %></p>
+          <% else %>
+            <p><%= link_to "Rescind Invitation", invitation_path(user.recieved_invitations.find_by(event_id: params[:event_id])), params: {user_id: user.id, event_id: params[:event_id]}, data: {turbo_method: :delete}, class: "button is-danger is-outlined" %></p> 
+          <% end %>
+          <hr>
+        <% end %>
+        
+      </div>
+    </div>
+  </div>
+</section>

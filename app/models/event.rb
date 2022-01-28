@@ -17,5 +17,5 @@ class Event < ApplicationRecord
   has_many :users_events
   has_many :attendees, through: :users_events
 
-  validates :title, :location, :date, :visibility, presence: true
+  validates :description, :title, :location, :date, :visibility, presence: true
 end

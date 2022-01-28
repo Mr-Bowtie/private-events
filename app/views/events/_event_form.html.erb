@@ -8,6 +8,13 @@
 
   <div class="field">
     <div class="control">
+      <%= f.label :description, class: "label has-text-white-ter"%>
+      <%= f.text_area :description, autofocus: true, class: "textarea" %>
+    </div>
+  </div>
+
+  <div class="field">
+    <div class="control">
       <%= f.label :location, class: "label has-text-white-ter"%>
       <%= f.text_area :location, autocomplete: "location", class: "input" %>
     </div>

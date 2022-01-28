@@ -56,7 +56,7 @@
           <h2 class="title is-3 has-text-info">Creator dashboard</h2>
            <div class="field is-grouped">
              <p class="control"><%= link_to 'Edit Event', edit_event_path(@event), class: "button is-warning is-outlined" %></p>
-             <p class="control"><%= link_to "Delete Event", event_path(@event), data: { turbo_method: :delete}, class: "button is-danger is-outlined" %></p>
+             <p class="control"><%= link_to "Delete Event", event_path(@event), data: { turbo_method: :delete, confirm: "are you sure?"}, class: "button is-danger is-outlined" %></p>
            </div><br>
            <% if @event.date >= Date.today %>
              <p class="control"><%= button_to "Send Invites", users_index_path, method: 'get', params: {event_id: @event.id}, class: "button is-info" %></p>

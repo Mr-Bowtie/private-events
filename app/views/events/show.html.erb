@@ -5,7 +5,7 @@
        <div class="column is-half">
          <h1 class="title is-2 has-text-white-ter"><%= @event.title %></h1><br />
 
-         <% if @event.invitations.unresponded.where(recipient_id: current_user.id).exists? && @event.date >= Date.today%>
+         <% if user_signed_in? && @event.invitations.unresponded.where(recipient_id: current_user.id).exists? && @event.date >= Date.today%>
            <h2 class="title is-4 has-text-warning">You've been invited</h2>
            <div class="field is-grouped">
              <p class="control">
@@ -48,7 +48,7 @@
        </div>
 
        <div class="column is-one-quarter">
-         <% if current_user.id == @event.creator_id %>
+         <% if user_signed_in? && current_user.id == @event.creator_id %>
           <h2 class="title is-3 has-text-info">Creator dashboard</h2>
            <div class="field is-grouped">
              <p class="control"><%= link_to 'Edit Event', edit_event_path(@event), class: "button is-warning is-outlined" %></p>
@@ -67,8 +67,9 @@
              <br>
              <h3 class="title is-4 has-text-white-ter">Declined</h3><hr>
              <% @event.invitations.where("response == ?", 'decline').each do |i| %>
-               <p class="subtitle has-text-white-ter">Name: <%= i.recipient.name %> Email: <%= i.recipient.email %></p>
+               <p class="subtitle has-text-white-ter"><%= i.recipient.name %></p>
              <% end %>
+             <br>
          <% end %>
          <h2 class="title is-3 has-text-white-ter">Attended By</h2><hr>
          <% @event.attendees.each do |a| %>

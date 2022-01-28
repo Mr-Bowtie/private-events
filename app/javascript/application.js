@@ -2,16 +2,15 @@
 import "@hotwired/turbo-rails"
 import "controllers"
 
-const burger = document.querySelector('.burger');
-const nav = document.querySelector('#nav-menu');
-const navButtons = document.querySelector("#navButtons");
 
-function toggle_menu () {
-    burger.classList.toggle('is-active')
-    nav.classList.toggle('is-active')
-    navButtons.classList.toggle("is-grouped")
-};
-
-document.addEventListener("DOMContentLoaded", () =>{
-    burger.addEventListener("click", toggle_menu);
+document.addEventListener("turbo:load", () =>{
+    const burger = document.querySelector('.burger');
+    const nav = document.querySelector('#nav-menu');
+    const navButtons = document.querySelector("#navButtons");
+    burger.addEventListener("click", () =>{
+        burger.classList.toggle('is-active')
+        nav.classList.toggle('is-active')
+        navButtons.classList.toggle("is-grouped")
+        navButtons.classList.toggle("is-two-thirds")
+    })
 });

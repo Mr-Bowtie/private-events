@@ -1,28 +1,35 @@
 <%= form_with model: @event do |f| %>
-  <div>
-    <%= f.label :title %><br />
-    <%= f.text_area :title, autofocus: true %>
+  <div class="field">
+    <div class="control">
+      <%= f.label :title, class: "label has-text-white-ter"%>
+      <%= f.text_area :title, autofocus: true, class: "input" %>
+    </div>
   </div>
 
-  <div>
-  <%= f.label :location %><br />
-  <%= f.text_area :location, autocomplete: "location" %>
+  <div class="field">
+    <div class="control">
+      <%= f.label :location, class: "label has-text-white-ter"%>
+      <%= f.text_area :location, autocomplete: "location", class: "input" %>
+    </div>
   </div>
 
-  <div>
-    <%= f.label :date %><br />
-    <%= f.date_field :date %>
+  <div class="field">
+    <div class="control">
+      <%= f.label :date, class: "label has-text-white-ter"%>
+      <%= f.date_field :date, class: "input" %>
+    </div>
   </div>
   <br>
   <div>
-    <%= f.label :visibility, "Public" %>
+    <%= f.label :visibility, "Public  ", class: "radio has-text-white-ter"%>
     <%= f.radio_button :visibility, "public" %>
     <br>
-    <%= f.label :visibility, "Private" %>
+    <%= f.label :visibility, "Private  ", class: "radio has-text-white-ter" %>
     <%= f.radio_button :visibility, "private" %>
   </div>
+    <br>
 
   <div>
-    <%= f.button :submit %>
+    <%= f.button :submit, class: "button is-info" %>
   </div>
 <% end %>

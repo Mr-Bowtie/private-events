@@ -98,6 +98,8 @@ GEM
       responders
       warden (~> 1.2.3)
     digest (3.1.0)
+    dockerfile-rails (1.2.5)
+      rails
     em-websocket (0.5.3)
       eventmachine (>= 0.12.9)
       http_parser.rb (~> 0)
@@ -281,6 +283,7 @@ DEPENDENCIES
   capybara
   debug
   devise
+  dockerfile-rails
   guard
   guard-livereload
   importmap-rails

@@ -67,8 +67,6 @@ group :development do
   gem "web-console"
 
   gem "guard"
-  gem "guard-livereload", require: false
-  gem "rack-livereload"
   # Add speed badges [https://github.com/MiniProfiler/rack-mini-profiler]
   # gem "rack-mini-profiler"
 
@@ -82,3 +80,5 @@ group :test do
   gem "selenium-webdriver"
   gem "webdrivers"
 end
+
+gem "dockerfile-rails", ">= 1.2", :group => :development

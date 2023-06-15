@@ -3,7 +3,7 @@ services:
   # is going to run. The key can be anything. Note that this
   # key will be the name of this image on the network that docker-compose
   # creates, so make it explicit and obvious.
-  sustainable-rails-docker:
+  private-events:
     # This is the image where our app runs. image: is a keyword. The value
     # is the name of a Docker image, and likely in the format ACCOUNT/REPO:TAG
     image: private-events:lastest
@@ -12,6 +12,8 @@ services:
       context: .
     environment:
       MYAPP_DATABASE_PASSWORD: "postgress"
+      RAILS_MASTER_KEY: $RAILS_MASTER_KEY
+
 
     # This says that our app should not start up until the DB and Redis instances
     # are up.  Ideally we'd use "service_healthy" which says to wait for the services to
@@ -34,7 +36,6 @@ services:
     # by whatever is running in the container on EXPOSE
     ports:
       - "9999:3000"
-      - "22:22"
 
     # This maps the WORKDIR directory inside the Docker
     # container to our hosts directory, VOLUME_SOURCE
@@ -45,10 +46,7 @@ services:
     # on macOS. This will cache reads and writes making the container
     # authoritative, so your computer will be behind, but not by much
     volumes:
-      - ./app:/root/work/app:delegated
-      - ./config:/root/work/config:delegated
-      - ./lib/:/root/work/lib:delegated
-      - ./db:/root/work/db:delegated
+      - ./:/root/work:delegated
     command: sh -c "./docker-entrypoint.sh"
   # This creates a SECOND container
   # called "db" that will run Postgres.
@@ -90,9 +88,7 @@ services:
     # and it doesn't matter if it's 'secure', so we'll use
     # "postgres" as the password
     environment:
-      POSTGRES_USER: myapp
       POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: myapp_development
     ports:
       - 5432:5432
   # Here, we set up Redis which we don't need to use in the book
